@@ -6,3 +6,8 @@
 body{
     font-family: 'Inter', sans-serif;
 }
+
+.category .active{
+    background-color: rgb(34 197 94);
+    color: white;
+}

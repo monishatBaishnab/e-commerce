@@ -6,6 +6,8 @@ import Products from "../pages/products/Products";
 import Shop from "../pages/shop/Shop";
 import Login from "../pages/login/Login";
 import Regester from "../pages/regester/Regester";
+import FilterProducts from "../components/filterProducts/FilterProducts";
+import ProductDetails from "../components/productDetails/ProductDetails";
 
 const Router = createBrowserRouter([
     {
@@ -15,11 +17,20 @@ const Router = createBrowserRouter([
         children: [
             {
                 path: '/',
-                element: <Home />
+                element: <Home />,
+                loader: () => fetch('https://fakestoreapi.com/products/categories'),
+                children: [
+                    {
+                        path: '/:category',
+                        element: <FilterProducts />,
+                        loader: ({params}) => fetch(`https://fakestoreapi.com/products/category/${params.category}`),
+                    }
+                ]
             },
             {
                 path: '/products',
-                element: <Products />
+                element: <Products />,
+                loader: () => fetch('https://fakestoreapi.com/products'),
             },
             {
                 path: '/shop',
@@ -32,6 +43,11 @@ const Router = createBrowserRouter([
             {
                 path: '/regester',
                 element: <Regester />
+            },
+            {
+                path: '/details/:id',
+                element: <ProductDetails />,
+                loader: ({params}) => fetch(`https://fakestoreapi.com/products/${params.id}`)
             }
         ]
     }
